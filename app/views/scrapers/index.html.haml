@@ -4,5 +4,10 @@
   %h1= title
 
   = paginate @scrapers
+  Sort by:
+  = sort_link(@q, :name, 'Scraper Name', default_order: :asc)
+  = sort_link(@q, :owner_nickname, default_order: :asc)
+  = sort_link(@q, :created_at, 'Created At', default_order: :desc)
+  = sort_link(@q, :runs_status_code, 'Has Errors', default_order: :desc)
   = render partial: "sync/scrapers/scraper", collection: @scrapers
   = paginate @scrapers

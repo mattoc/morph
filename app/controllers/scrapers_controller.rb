@@ -17,8 +17,11 @@ class ScrapersController < ApplicationController
   end
 
   def index
-    @scrapers = Scraper.accessible_by(current_ability).order(created_at: :desc)
-                .page(params[:page])
+    @q = Scraper.accessible_by(current_ability)
+             .joins('LEFT OUTER JOIN runs AS scraper_run ON scrapers.id = scraper_run.scraper_id')
+             .order(created_at: :desc)
+             .ransack(params[:q])
+    @scrapers = @q.result(distinct: true).page(params[:page])
   end
 
   def new
